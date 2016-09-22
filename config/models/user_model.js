@@ -12,5 +12,5 @@ var userSchema = new mongoose.Schema({
     user_phone_no:Number
    });
 
-mongoose.connect('mongodb://localhost:27017/webhunt');
-module.exports = mongoose.model('users', userSchema);
+var db=mongoose.createConnection('mongodb://localhost:27017/webhunt');
+module.exports = db.model('users', userSchema);

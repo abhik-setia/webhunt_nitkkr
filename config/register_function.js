@@ -32,11 +32,11 @@ exports.registerUser=function(event_name,user_name,user_roll_no
               if(err){
                 callback({'error':true,'error_message':'Internal server error in saving user'});
               }
-              callback({'error':false,'error_message':'user registered'});
+              callback({'error':false,'error_message':'user registered','register_status':false});
             });
 
           }else{
-            callback({'error':true,'error_message':'user already registered'});
+            callback({'error':false,'error_message':'user already registered','register_status':true});
           }
 
         });

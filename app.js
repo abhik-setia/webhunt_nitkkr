@@ -9,8 +9,8 @@ var bodyParser = require('body-parser');
 //get your routes first
 var routes = require('./routes/index');
 var users = require('./routes/users');
-//var events=require('./routes/events');
-var register=require("./routes/register");
+var events=require('./routes/events');
+var register=require('./routes/register');
 
 var app = express();
 
@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //set your routes here
 app.use('/', routes);
 app.use('/users', users);
-//app.use('/events',events);
+app.use('/events',events);
 app.use('/register',register);
 
 // catch 404 and forward to error handler

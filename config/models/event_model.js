@@ -7,15 +7,18 @@ var questionSchema=mongoose.Schema({
   answer:String
 });
 
-var user_register=mongoose.Schema({
-  
-})
 
 var eventSchema = mongoose.Schema({
-     name:String,
+     event_name:String,
      event_date:Date,
-     questions:[questionSchema]
-   });
+     start_time:Date,
+     end_time:Date,
+     society:String,
+     passcode:String,
+     rules:[String],
+     questions:[questionSchema],
+     user_registered:[{ type: Schema.Types.ObjectId, ref: 'users' }]
+    });
 
-mongoose.connect('mongodb://localhost:27017/webhunt');
-module.exports = mongoose.model('events', eventSchema);
+var db=mongoose.createConnection('mongodb://localhost:27017/webhunt');
+module.exports = db.model('events', eventSchema);
