@@ -1,13 +1,6 @@
 var mongoose=require('mongoose');
 var Schema = mongoose.Schema;
 
-var questionSchema=mongoose.Schema({
-  question_no:Number,
-  question:String,
-  answer:String
-});
-
-
 var eventSchema = mongoose.Schema({
      event_name:String,
      event_date:Date,
@@ -16,7 +9,7 @@ var eventSchema = mongoose.Schema({
      society:String,
      passcode:String,
      rules:[String],
-     questions:[questionSchema],
+     questions:[{ type: Schema.Types.ObjectId, ref: 'questions' }],
      user_registered:[{ type: Schema.Types.ObjectId, ref: 'users' }]
     });
 
