@@ -5,12 +5,14 @@ var engines = require('consolidate');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 //get your routes first
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var events=require('./routes/events');
 var register=require('./routes/register');
+
 
 var app = express();
 

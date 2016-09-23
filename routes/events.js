@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var event_model=require('../config/models/event_model');
+var mongoose=require('mongoose');
+
+var conn_new_app = mongoose.createConnection('mongodb://localhost/webhunt');
+//var user_model=require('../config/models/user_model')(conn_new_app);
+//var question_model=require('../config/models/question_model')(conn_new_app);
+var event_model=require('../config/models/event_model')(conn_new_app);
 
 var event_function=require('../config/event_functions');
 

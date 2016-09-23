@@ -1,8 +1,9 @@
 var mongoose=require('mongoose');
 var MongoClient=require('mongodb').MongoClient;
-
-var event_model=require('./models/event_model');
-var question_model=require('./models/question_model');
+var conn_new_app = mongoose.createConnection('mongodb://localhost/webhunt');
+var user_model=require('./models/user_model')(conn_new_app);
+var question_model=require('./models/question_model')(conn_new_app);
+var event_model=require('./models/event_model')(conn_new_app);
 
 exports.addEvent=function(event_name,event_date,start_time,end_time,
   society,passcode,rules_array,callback){
@@ -42,7 +43,7 @@ exports.addEvent=function(event_name,event_date,start_time,end_time,
 
 exports.getEvent=function(event_name,callback){
   if(event_name!=null||event_name!=undefined){
-    event_model.findOne({event_name:event_name}).exec(function(err,docs){
+    event_model.findOne({event_name:event_name}).populate('questions').exec(function(err,docs){
 
         if(docs.length!=0){
           callback(docs);

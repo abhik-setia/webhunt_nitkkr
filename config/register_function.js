@@ -1,7 +1,6 @@
 var mongoose=require('mongoose');
 var MongoClient=require('mongodb').MongoClient;
 
-var user_model=require('./models/user_model');
 
 exports.registerUser=function(event_name,user_name,user_roll_no
   ,user_branch,user_year,user_email,user_phone_no,callback){
