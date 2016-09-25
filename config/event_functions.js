@@ -43,9 +43,9 @@ exports.addEvent=function(event_name,event_date,start_time,end_time,
 
 exports.getEvent=function(event_name,callback){
   if(event_name!=null||event_name!=undefined){
-    event_model.findOne({event_name:event_name}).populate('questions').exec(function(err,docs){
+    event_model.findOne({event_name:event_name}).populate('questions user_registered').exec(function(err,docs){
 
-        if(docs.length!=0){
+        if(docs!=null){
           callback(docs);
         }else{
           callback({'error':true,'error_message':'Event not found'});
@@ -55,7 +55,6 @@ exports.getEvent=function(event_name,callback){
     callback({'error':true,'error_message':'undefined values'});
   }
 };
-
 exports.addQuestion=function(event_name,event_id,question_no,question,answer,callback){
   if(event_name!=null||event_name!=undefined){
 
@@ -80,10 +79,10 @@ exports.addQuestion=function(event_name,event_id,question_no,question,answer,cal
                 if(err)
                 {
                   console.log(err);
-                  callback({'error':false,'error_message':'Failed to update event array'});
+                  callback({'error':true,'error_message':'Failed to update event array'});
                 }else{
                   console.log(docs);
-                  callback({'error':true,'error_message':'Question added'});
+                  callback({'error':false,'error_message':'Question added'});
                 }
               });
 

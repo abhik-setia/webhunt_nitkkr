@@ -13,7 +13,7 @@ router.get('/:event_name',function(req,res){
 
   var event_name=req.params.event_name;
   event_function.getEvent(event_name,function(docs){
-    console.log(docs);
+    //console.log(docs);
     res.json(docs);
   });
 });
@@ -30,13 +30,13 @@ router.post('/addEvent',function(req,res){
 
     event_function.addEvent(event_name,event_date,start_time,end_time,
       society,passcode,rules_array,function(result){
-      console.log(result);
+      //console.log(result);
       res.json(result);
     });
 });
 
  router.post('/updateEvent',function(req,res){
-  event_model.update({event_name:event_name},
+  event_model.update({event_name:req.body.event_name},
               req.body,
              {upsert:true},function(err,docs){
                if(err)
@@ -59,7 +59,7 @@ router.post('/addEvent',function(req,res){
 
 
    event_function.addQuestion(event_name,event_id,question_no,question,answer,function(result){
-     console.log(result);
+     //console.log(result);
      res.json(result);
    });
  });

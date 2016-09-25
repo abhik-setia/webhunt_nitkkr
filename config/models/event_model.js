@@ -10,6 +10,7 @@ var eventSchema = new Schema({
      event_date:Date,
      start_time:Date,
      end_time:Date,
+     duration:String,
      society:String,
      passcode:String,
      rules:[String],
