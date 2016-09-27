@@ -12,7 +12,8 @@ module.exports = function(connection){
       user_branch:String,
       user_year:Number,
       user_email:mongoose.SchemaTypes.Email,
-      user_phone_no:Number
+      user_phone_no:Number,
+      answers:[{ type: mongoose.Schema.Types.ObjectId, ref:'answers'}]
      });
 
 return connection.model('users', userSchema);

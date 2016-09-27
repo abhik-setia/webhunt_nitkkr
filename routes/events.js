@@ -3,8 +3,9 @@ var router = express.Router();
 var mongoose=require('mongoose');
 
 var conn_new_app = mongoose.createConnection('mongodb://localhost/webhunt');
-//var user_model=require('../config/models/user_model')(conn_new_app);
-//var question_model=require('../config/models/question_model')(conn_new_app);
+var answer_model=require('../config/models/answer_model')(conn_new_app);
+var user_model=require('../config/models/user_model')(conn_new_app);
+var question_model=require('../config/models/question_model')(conn_new_app);
 var event_model=require('../config/models/event_model')(conn_new_app);
 
 var event_function=require('../config/event_functions');
@@ -63,4 +64,76 @@ router.post('/addEvent',function(req,res){
      res.json(result);
    });
  });
+
+router.post('/submitTest',function (req,res) {
+  var event_name=req.body.event_name;
+  var answer_no=req.body.answer_no;
+  var answer=req.body.answer;
+  var user_email=req.body.user_email;
+
+  answer_model.findOne({ $and :[{event_name:event_name},{answer_no:answer_no},{user_email:user_email}]},
+    function(err,docs){
+      if(err)
+      res.send({'error':true,'error_message':'docs are empty'});
+      else{
+        if(docs==null||docs.length==0){
+          var answer=new answer_model({
+            user_email:user_email,
+            event_name:event_name,
+            answer:answer,
+            answer_no:answer_no
+          });
+
+          answer.save(function(err,docs){
+            if(err)
+              {
+                console.log(err);
+                res.send({'error':true,'error_message':'docs are empty'});
+              }else{
+                user_model.update({$and :[{event_name:event_name},{user_email:user_email}]},
+                  { $push :{ answers:docs._id} },function(err,result){
+                    if(err)
+                    {
+                      console.log(err);
+                      res.send({'error':true,'error_message':'Failed to update event array'});
+                    }else{
+                      console.log(result);
+                      res.send({'error':false,'error_message':'Inserted'});
+                    }
+                });
+              }
+          });
+
+        }else{
+          answer_model.update({
+            $and :[{event_name:event_name},{answer_no:answer_no},{user_email:user_email}]
+          },req.body,{upsert:true}).exec(function(err,docs){
+            if(err)
+            callback(err);
+            else{
+              console.log(docs);
+              res.send({'error':false,'error_message':'Updated'});
+            }
+          })
+        }
+      }
+  })
+});
+
+router.post('/getAnswers',function (req,res){
+var event_name=req.body.event_name;
+var user_email=req.body.user_email;
+    user_model.findOne({ $and :[{event_name:event_name},{user_email:user_email}]}).populate('answers').exec(function(err,docs){
+          if(err)
+          console.log(err);
+          else{
+            if(docs!=null){
+              res.json(docs);
+            }else{
+              res.send({'error':true,'error_message':'Event not found'});
+            }
+          }
+    });
+});
+
 module.exports = router;
