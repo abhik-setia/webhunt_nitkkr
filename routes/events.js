@@ -70,6 +70,7 @@ router.post('/submitTest',function (req,res) {
   var answer_no=req.body.answer_no;
   var answer=req.body.answer;
   var user_email=req.body.user_email;
+  var original_answer=req.body.original_answer;
 
   answer_model.findOne({ $and :[{event_name:event_name},{answer_no:answer_no},{user_email:user_email}]},
     function(err,docs){
@@ -81,7 +82,8 @@ router.post('/submitTest',function (req,res) {
             user_email:user_email,
             event_name:event_name,
             answer:answer,
-            answer_no:answer_no
+            answer_no:answer_no,
+            original_answer:original_answer
           });
 
           answer.save(function(err,docs){

@@ -7,7 +7,8 @@ module.exports = function(connection){
       event_name:String,
       user_email:mongoose.SchemaTypes.Email,
       answer_no:Number,
-      answer:String
+      answer:String,
+      original_answer:String
      });
 
 return connection.model('answers', answerSchema);
