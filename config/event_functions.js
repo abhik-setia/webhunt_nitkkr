@@ -89,11 +89,23 @@ exports.addQuestion=function(event_name,event_id,question_no,question,answer,cal
             });
 
         }else{
-          callback({'error':true,'error_message':'Duplicate question'});
-        }
-    });
+              question_model.update({ $and : [ { event_id:event_id},{question_no:question_no } ]  },
+                { $set : { question_no :question_no,question:question,answer:answer}},function(err,result){
+                  if(err)
+                  {
+                    console.log(err);
+                    callback({'error':true,'error_message':'Failed to update event array'});
+                  }else{
+                    console.log(result);
+                    callback({'error':false,'error_message':'Question updated'});
+                  }
+                }
+              );
+          }
 
-  }else{
+        });
+
+}else{
     callback({'error':true,'error_message':'undefined values'});
   }
-};
+}
