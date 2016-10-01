@@ -166,10 +166,19 @@ var user_email=req.body.user_email;
           }
 
           else{
-            if(val==undefined){
+            if(val==undefined||val==null||val.length==0){
                 res.send({'error':true,'error_message':"undefined values"});
             }else{
             if(val[0].play_btn_clicked==null||val[0].play_btn_clicked.length==0){
+
+              //check for indiscrepancy
+              var  current_date=new Date();
+              var current_time=Date.parse(current_date);
+
+              if(current_time<Date.parse(start_time)){
+                res.send({'active':0,'timer_value':'-2','error':false,'error_message':''});
+              }else{
+
               //clicked first time
               user_model.update({ $and : [ {user_email:user_email},{event_name:event_name} ] },{ $set: { play_btn_clicked:Date.now() } },function(err,updateval){
                 if(err)
@@ -177,21 +186,24 @@ var user_email=req.body.user_email;
                   console.log(err);
                   res.send({'error':true,'error_message':'Something went wrong'});
                 }else{
-                  res.send({'active':docs[0].active,'timer_value':time_slot});
+                  res.send({'active':docs[0].active,'timer_value':time_slot,'error':false,'error_message':''});
                 }
               });
-
+              }
             }else{
               //return timer value with active status
             var btn_clicked_at=Date.parse(val[0].play_btn_clicked);
             var  current_date=new Date();
             var current_time=Date.parse(current_date);
             console.log(btn_clicked_at+" "+current_time);
+
+
             if(current_time-btn_clicked_at>time_slot)
-              res.send({'active':docs[0].active,'timer_value':'-1'});
+              res.send({'active':docs[0].active,'timer_value':'-1','error':false,'error_message':''});
             else{
-              res.send({'active':docs[0].active,'timer_value':time_slot-(current_time-btn_clicked_at)});
+              res.send({'active':docs[0].active,'timer_value':time_slot-(current_time-btn_clicked_at),'error':false,'error_message':''});
             }
+
           }
           }
         }
