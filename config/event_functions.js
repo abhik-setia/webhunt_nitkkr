@@ -28,6 +28,24 @@ exports.addEvent=function(event_name,event_date,start_time,end_time,
                 if(err){
                   callback({'error':true,'error_message':'Internal server error in saving event'});
                 }
+                setInterval(function(){
+
+                    var date=new Date();
+
+                    if(Date.parse(date)>=Date.parse(start_time) && Date.parse(date) <=Date.parse(end_time)){
+                      event_model.update({event_name:event_name},{ $set : { active : 1} },function(err,docs){
+                        if(err)
+                        console.log(err);
+                      });
+                    //  console.log('active');
+                    }else{
+                      event_model.update({event_name:event_name},{ $set : { active : 0} },function (err,docs) {
+                        if(err)
+                        console.log(err);
+                      });
+                    //  console.log('inactive');
+                    }
+                    }, 1000);
                 callback({'error':false,'error_message':'Event added'});
               });
           }else{

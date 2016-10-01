@@ -13,6 +13,7 @@ module.exports = function(connection){
       user_year:Number,
       user_email:mongoose.SchemaTypes.Email,
       user_phone_no:Number,
+      play_btn_clicked:Date,
       answers:[{ type: mongoose.Schema.Types.ObjectId, ref:'answers'}]
      });
 

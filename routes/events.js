@@ -138,4 +138,72 @@ var user_email=req.body.user_email;
     });
 });
 
+router.post('/isEventActive',function(req,res){
+
+var event_name=req.body.event_name;
+var user_email=req.body.user_email;
+
+    event_model.find({event_name:event_name},function(err,docs){
+
+      if(docs==null||docs.length==0){
+        res.send({'error':true,'error_message':'Event not found'});
+      }
+
+      if(err)
+      res.send({'error':true,'error_message':'Something went wrong'});
+
+      var start_time=docs[0].start_time;
+      var end_time=docs[0].end_time;
+
+      var time_slot=Date.parse(end_time)-Date.parse(start_time);
+      var date=new Date();
+
+      user_model.find( { $and : [ {user_email:user_email},{event_name:event_name} ] },function(err,val){
+          if(err)
+          {
+            console.log(err);
+            res.send({'error':true,'error_message':'Something went wrong'});
+          }
+
+          else{
+            if(val==undefined){
+                res.send({'error':true,'error_message':"undefined values"});
+            }else{
+            if(val[0].play_btn_clicked==null||val[0].play_btn_clicked.length==0){
+              //clicked first time
+              user_model.update({ $and : [ {user_email:user_email},{event_name:event_name} ] },{ $set: { play_btn_clicked:Date.now() } },function(err,updateval){
+                if(err)
+                {
+                  console.log(err);
+                  res.send({'error':true,'error_message':'Something went wrong'});
+                }else{
+                  res.send({'active':docs[0].active,'timer_value':time_slot});
+                }
+              });
+
+            }else{
+              //return timer value with active status
+            var btn_clicked_at=Date.parse(val[0].play_btn_clicked);
+            var  current_date=new Date();
+            var current_time=Date.parse(current_date);
+            console.log(btn_clicked_at+" "+current_time);
+            if(current_time-btn_clicked_at>time_slot)
+              res.send({'active':docs[0].active,'timer_value':'-1'});
+            else{
+              res.send({'active':docs[0].active,'timer_value':time_slot-(current_time-btn_clicked_at)});
+            }
+          }
+          }
+        }
+      }
+
+
+    );
+
+    });
+
+});
+
+
+
 module.exports = router;

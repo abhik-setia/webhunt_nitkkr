@@ -14,6 +14,7 @@ var eventSchema = new Schema({
      society:String,
      passcode:String,
      rules:[String],
+     active:{type:Number,default:0},
      questions:[{ type: Schema.Types.ObjectId, ref: 'questions' }],
      user_registered:[{ type: Schema.Types.ObjectId, ref: 'users' }]
     });
