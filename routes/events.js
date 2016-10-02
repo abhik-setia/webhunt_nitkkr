@@ -175,7 +175,7 @@ var user_email=req.body.user_email;
               var  current_date=new Date();
               var current_time=Date.parse(current_date);
 
-              if(current_time<Date.parse(start_time)){
+              if(current_time+19800000<Date.parse(start_time)){
                 res.send({'active':0,'timer_value':'-2','error':false,'error_message':''});
               }else{
 
