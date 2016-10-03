@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Altius</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+
+    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  </head>
+  <body ng-controller="MainCtrl as main">
+    <div class="container">
+  <div class="jumbotron">
+        <h1>{{Event}} {{main.val}}</h1>
+    <p>Welcome,Please pick your options</p>
+  </div>
+
+  <button type="button" class="btn btn-primary" ng-click="loadEvent('webhunt')">Load slot-1 users</button>
+  <button type="button" class="btn btn-primary">Load slot-2 users</button>
+  <button type="button" class="btn btn-primary">Load slot-3 users</button>
+
+</div>
+<hr>
+<div class="container-fluid" ng-show="show_event_details">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+              Event details
+            </div >
+            <div class="panel-body">
+              <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>EVENT DATE</th>
+                      <th>START TIME</th>
+                      <th>END TIME</th>
+                      <th>PASSCODE</th>
+                      <th>SOCIETY</th>
+                      <th ng-repeat="question in questions">
+                       Question {{question.question_no}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>{{event_date | date:'dd-MM-yyyy'}}</td>
+                          <td>{{start_time | date:'dd-MM-yyyy hh:mm:ss'}}</td>
+                          <td >{{end_time | date:'dd-MM-yyyy hh:mm:ss'}}</td>
+                          <td>{{passcode}}</td>
+                          <td>{{society}}</td>
+                          <td ng-repeat="question in questions">
+                           {{question.question}}
+                         </td>
+
+                      </tr>
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>ANSWERS</td>
+                          <td ng-repeat="question in questions">
+                           {{question.answer}}
+                         </td>
+
+                      </tr>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+</div>
+<div class="container-fluid" ng-show="show_event_details" >
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+            Users registered for event
+            <div >
+            </div>
+        </div>
+          <div class="panel-body">
+             <table class="table table-hover table-striped">
+                 <thead>
+                   <tr>
+                     <th>S.no</th>
+                     <th>User Name</th>
+                     <th>Roll No</th>
+                     <th>Branch</th>
+                     <th>Year</th>
+                     <th>Email</th>
+                     <th>Phone number</th>
+                     <th ng-repeat="question in questions">
+                      Answer {{question.question_no}}
+                     </th>
+                        <!-- //add questiosn answers dynamically generating titles -->
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr ng-repeat="user in users">
+                   <td>{{$index}}</td>
+                   <td>{{user.user_name}}</td>
+                   <td>{{user.user_roll_no}}</td>
+                   <td>{{user.user_branch}}</td>
+                   <td>{{user.user_year}}</td>
+                   <td>{{user.user_email}}</td>
+                   <td>{{user.user_phone_no}}</td>
+
+                   <td ng-repeat="answer in user.answers">
+                     {{answer.answer}}
+                  </td>
+                   </tr?
+                 </tbody>
+               </table>
+          </div>
+          <div class="container">
+
+          </div>
+      </div>
+   </div>
+    <script type="text/javascript" src="angular_init.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

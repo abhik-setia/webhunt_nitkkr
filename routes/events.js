@@ -78,7 +78,7 @@ router.post('/submitTest',function (req,res) {
       res.send({'error':true,'error_message':'docs are empty'});
       else{
         if(docs==null||docs.length==0){
-          var answer=new answer_model({
+          var answerModel=new answer_model({
             user_email:user_email,
             event_name:event_name,
             answer:answer,
@@ -86,7 +86,7 @@ router.post('/submitTest',function (req,res) {
             original_answer:original_answer
           });
 
-          answer.save(function(err,docs){
+          answerModel.save(function(err,docs){
             if(err)
               {
                 console.log(err);

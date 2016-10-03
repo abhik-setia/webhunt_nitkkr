@@ -61,7 +61,7 @@ exports.addEvent=function(event_name,event_date,start_time,end_time,
 
 exports.getEvent=function(event_name,callback){
   if(event_name!=null||event_name!=undefined){
-    event_model.findOne({event_name:event_name}).populate('questions user_registered').exec(function(err,docs){
+    event_model.findOne({event_name:event_name}).populate('questions user_registered ').exec(function(err,docs){
 
         if(docs!=null){
           callback(docs);
