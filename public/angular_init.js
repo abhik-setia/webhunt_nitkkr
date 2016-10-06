@@ -3,19 +3,6 @@ var app=angular.module('app',[]);
 app.controller('MainCtrl',MainCtrl);
 
     function MainCtrl ($scope,$http) {
-        $scope.items = [{
-            name: 'Scuba Diving Kit',
-            id: 7297510
-        },{
-            name: 'Snorkel',
-            id: 0278916
-        },{
-            name: 'Wet Suit',
-            id: 2389017
-        },{
-            name: 'Beach Towel',
-            id: 1000983
-        }];
         $scope.Event='Webhunt';
         this.val="";
         this.showMessage=function(ms){
@@ -31,7 +18,7 @@ app.controller('MainCtrl',MainCtrl);
         $scope.show_event_details=1;
 
         $scope.loadEvent=function(event){
-          $http.get('http://localhost:3000/events/'+event)
+          $http.get('http://45.55.126.97:3000/events/'+event)
           .then(function(response){
 
             var data_received=response.data;
@@ -68,16 +55,12 @@ app.controller('MainCtrl',MainCtrl);
 				                  user_email :email,
 				                  event_name : event_name,
 				                  };
-            var res = $http.post('http://localhost:3000/events/getAnswers', dataObj);
+            var res = $http.post('http://45.55.126.97:3000/events/getAnswers', dataObj);
 
             res.success(function(data, status, headers, config) {
 
                $scope.users[index].answers=0;
                $scope.users[index].answers=data.answers;
-              //  for (var i = 0; i < $scope.users[index].answers.length; i++) {
-              //    $scope.users[index].answers[data.answers[i].answer_no]=data.answers[i].answer;
-              //  }
-            //   $scope.users[index]
               });
 
             res.error(function(data, status, headers, config) {

@@ -177,7 +177,11 @@ var user_email=req.body.user_email;
 
               if(current_time+19800000<Date.parse(start_time)){
                 res.send({'active':0,'timer_value':'-2','error':false,'error_message':''});
-              }else{
+              }
+              else if(current_time+19800000>Date.parse(end_time)){
+                res.send({'active':docs[0].active,'timer_value':'-1','error':false,'error_message':''});
+              }
+              else{
 
               //clicked first time
               user_model.update({ $and : [ {user_email:user_email},{event_name:event_name} ] },{ $set: { play_btn_clicked:Date.now() } },function(err,updateval){

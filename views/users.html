@@ -15,9 +15,9 @@
     <p>Welcome,Please pick your options</p>
   </div>
 
-  <button type="button" class="btn btn-primary" ng-click="loadEvent('webhunt')">Load slot-1 users</button>
-  <button type="button" class="btn btn-primary">Load slot-2 users</button>
-  <button type="button" class="btn btn-primary">Load slot-3 users</button>
+  <button type="button" class="btn btn-primary" ng-click="loadEvent('webhunt_1')">Load slot-1 users</button>
+  <button type="button" class="btn btn-primary" ng-click="loadEvent('webhunt_2')">Load slot-2 users</button>
+  <button type="button" class="btn btn-primary" ng-click="loadEvent('webhunt_3')">Load slot-3 users</button>
 
 </div>
 <hr>
@@ -36,7 +36,7 @@
                       <th>END TIME</th>
                       <th>PASSCODE</th>
                       <th>SOCIETY</th>
-                      <th ng-repeat="question in questions">
+                      <th ng-repeat="question in questions ">
                        Question {{question.question_no}}
                       </th>
                     </tr>
@@ -103,7 +103,7 @@
                    <td>{{user.user_email}}</td>
                    <td>{{user.user_phone_no}}</td>
 
-                   <td ng-repeat="answer in user.answers">
+                   <td ng-repeat="answer in user.answers | orderBy: 'answer_no' ">
                      {{answer.answer}}
                   </td>
                    </tr?
